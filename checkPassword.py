@@ -53,7 +53,7 @@ def get_message(score: int) -> str:
     else:
         return Fore.GREEN + "Strong" + Fore.RESET
 
-def get_feedback(length: int, char_types: int, weak_patterns: int) -> str:
+def get_feedback(length: int, char_types: int, weak_patterns: int, score: int) -> str:
     feedback = []
     if length < 6:
         feedback.append("Make it at least 6 characters long")
@@ -61,6 +61,12 @@ def get_feedback(length: int, char_types: int, weak_patterns: int) -> str:
         feedback.append("Use a mix of uppercase, lowercase, numbers, and symbols")
     if weak_patterns < 0:
         feedback.append("Avoid common patterns and sequences")
+    if get_message(score) == Fore.GREEN + "Strong" + Fore.RESET:
+        feedback.append("Great password!")
+    elif get_message(score) == Fore.BLUE + "Medium" + Fore.RESET:
+        feedback.append("Good password, but could be better")
+    else:
+        feedback.append("Consider improving your password")
     return "\n".join(feedback)
 
 def main() -> None:
@@ -79,7 +85,7 @@ def main() -> None:
             print(f"Password score: {score}")
             print(f"Password strength: {message}")
             print(f"{'Feedback':=^50}")
-            print(get_feedback(len(password), check_char_types(password), check_weak_patterns(password)))
+            print(get_feedback(len(password), check_char_types(password), check_weak_patterns(password), score))
             print("=" * 50)
             again = input("Do you want to check another password? (y/n): ")
             if again.lower().strip() not in ["y", "yes"]:
