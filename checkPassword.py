@@ -15,7 +15,7 @@ def check_length(password: str) -> int:
         return 4
 
 def check_char_types(password: str) -> int:
-    score = 0
+    score: int = 0
     if any(c.islower() for c in password):
         score += 1
     if any(c.isupper() for c in password):
@@ -27,7 +27,7 @@ def check_char_types(password: str) -> int:
     return score
 
 def check_weak_patterns(password: str) -> int:
-    score = 0
+    score: int = 0
     if password.isdigit():
         score -= 2
     if password.islower():
@@ -37,10 +37,10 @@ def check_weak_patterns(password: str) -> int:
     return score
 
 def check_password(password: str) -> int:
-    length_score = check_length(password)
-    char_types_score = check_char_types(password)
-    weak_patterns_score = check_weak_patterns(password)
-    total_score = length_score + char_types_score + weak_patterns_score
+    length_score: int = check_length(password)
+    char_types_score: int = check_char_types(password)
+    weak_patterns_score: int = check_weak_patterns(password)
+    total_score: int = length_score + char_types_score + weak_patterns_score
     return 0 if total_score < 0 else total_score
 
 def get_message(score: int) -> str:
@@ -54,7 +54,7 @@ def get_message(score: int) -> str:
         return Fore.GREEN + "Strong" + Fore.RESET
 
 def get_feedback(length: int, char_types: int, weak_patterns: int, score: int) -> str:
-    feedback = []
+    feedback: list[str] = []
     if length < 6:
         feedback.append("Make it at least 6 characters long")
     if char_types < 3:
@@ -77,8 +77,8 @@ def main() -> None:
             if password.strip() == "":
                 print("Password cannot be empty")
                 continue
-            score = check_password(password)
-            message = get_message(score)
+            score: int = check_password(password)
+            message: str = get_message(score)
             print(f"Length score: {check_length(password)}")
             print(f"Character types score: {check_char_types(password)}")
             print(f"Weak patterns score: {check_weak_patterns(password)}")
@@ -87,8 +87,8 @@ def main() -> None:
             print(f"{'Feedback':=^50}")
             print(get_feedback(len(password), check_char_types(password), check_weak_patterns(password), score))
             print("=" * 50)
-            again = input("Do you want to check another password? (y/n): ")
-            if again.lower().strip() not in ["y", "yes"]:
+            again_choice: str = input("Do you want to check another password? (y/n): ")
+            if again_choice.lower().strip() not in ["y", "yes"]:
                 again = False
         except KeyboardInterrupt:
             print("\nGoodbye!")
